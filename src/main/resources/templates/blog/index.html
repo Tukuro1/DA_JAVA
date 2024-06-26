@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Blog</title>
+</head>
+<body>
+<h1>Blog Posts</h1>
+<a href="/blog/new">Create New Post</a>
+<table>
+    <tr>
+        <th>Title</th>
+        <th>Content</th>
+    </tr>
+    <tr th:each="post : ${listPosts}">
+        <td><a th:href="@{|/blog/post/${post.id}|}" th:text="${post.title}">Title</a></td>
+        <td th:text="${post.content}">Content</td>
+    </tr>
+</table>
+</body>
+</html>
