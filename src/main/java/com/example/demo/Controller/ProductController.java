@@ -19,7 +19,7 @@ public class ProductController {
     @GetMapping
     public String showProductList(Model model) {
         model.addAttribute("products", productService.getAllProducts());
-        return "/products/product-list";
+        return "/products/index";
 }
     // For adding a new product
     @GetMapping("/add")
