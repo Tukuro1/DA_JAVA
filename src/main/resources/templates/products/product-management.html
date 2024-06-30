@@ -3,16 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>Product Management</title>
-    <link rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <script
-            src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
 <div class="container mt-5">
     <h1>Product Management</h1>
-    <button onclick="loadProducts()" class="btn btn-primary mb-3">Refresh
-        Products</button>
+    <button onclick="loadProducts()" class="btn btn-primary mb-3">Refresh Products</button>
     <table class="table table-bordered">
         <thead>
         <tr>
@@ -20,13 +17,14 @@
             <th>Name</th>
             <th>Price</th>
             <th>Description</th>
+            <th>Image</th>
             <th>Actions</th>
         </tr>
         </thead>
         <tbody id="productList"></tbody>
     </table>
     <!-- Form to add/update a product -->
-    <form id="productForm">
+    <form id="productForm" enctype="multipart/form-data">
         <input type="hidden" id="productId">
         <div class="mb-3">
             <label for="name" class="form-label">Name:</label>
@@ -40,91 +38,105 @@
             <label for="description" class="form-label">Description:</label>
             <input type="text" class="form-control" id="description">
         </div>
+        <div class="mb-3">
+            <label for="image" class="form-label">Image:</label>
+            <input type="file" class="form-control" id="image">
+        </div>
         <button type="submit" class="btn btn-success">Save Product</button>
     </form>
 </div>
 <script>
     $(document).ready(function() {
-    loadProducts();
-    $("#productForm").on('submit', function(e) {
-    e.preventDefault();
-saveProduct();
- });
- });
- function loadProducts() {
- $.ajax({
- url: '/api/products',
- type: 'GET',
- success: function(products) {
- let productList = '';
- $.each(products, function(index, product) {
- productList += `<tr>
- <td>${product.id}</td>
- <td>${product.name}</td>
- <td>${product.price}</td>
-<td>${product.description}</td>
-<td>
- <button
-onclick="editProduct(${product.id})" class="btn btn-warning">Edit</button>
- <button
-onclick="deleteProduct(${product.id})" class="btn btn-danger">Delete</button>
- </td>
- </tr>`;
- });
- $('#productList').html(productList);
- }
- });
- }
- function saveProduct() {
- const productData = {
- id: $('#productId').val(),
- name: $('#name').val(),
- price: $('#price').val(),
- description: $('#description').val()
- };
- const apiUrl = productData.id ? `/api/products/${productData.id}` :
-'/api/products';
- const apiType = productData.id ? 'PUT' : 'POST';
- $.ajax({
- url: apiUrl,
- type: apiType,
- contentType: 'application/json',
- data: JSON.stringify(productData),
- success: function() {
- resetForm();
- loadProducts();
- }
- });
- }
- function editProduct(id) {
- $.ajax({
- url: `/api/products/${id}`,
- type: 'GET',
- success: function(product) {
- $('#productId').val(product.id);
- $('#name').val(product.name);
- $('#price').val(product.price);
-$('#description').val(product.description);
- }
- });
- }
- function deleteProduct(id) {
- if (confirm('Are you sure you want to delete this product?')) {
- $.ajax({
- url: `/api/products/${id}`,
- type: 'DELETE',
- success: function() {
- loadProducts();
- }
- });
- }
- }
- function resetForm() {
- $('#productId').val('');
- $('#name').val('');
- $('#price').val('');
- $('#description').val('');
- }
+        loadProducts();
+        $("#productForm").on('submit', function(e) {
+            e.preventDefault();
+            saveProduct();
+        });
+    });
+
+    function loadProducts() {
+        $.ajax({
+            url: '/api/products',
+            type: 'GET',
+            success: function(products) {
+                let productList = '';
+                $.each(products, function(index, product) {
+                    productList += `<tr>
+                        <td>${product.id}</td>
+                        <td>${product.name}</td>
+                        <td>${product.price}</td>
+                        <td>${product.description}</td>
+                        <td><img src="/images/${product.imageName}" class="img-thumbnail" style="max-width: 100px; max-height: 100px;" alt="Product Image"></td>
+                        <td>
+                            <button onclick="editProduct(${product.id})" class="btn btn-warning">Edit</button>
+                            <button onclick="deleteProduct(${product.id})" class="btn btn-danger">Delete</button>
+                        </td>
+                    </tr>`;
+                });
+                $('#productList').html(productList);
+            }
+        });
+    }
+
+    function saveProduct() {
+        const formData = new FormData();
+        formData.append('id', $('#productId').val());
+        formData.append('name', $('#name').val());
+        formData.append('price', $('#price').val());
+        formData.append('description', $('#description').val());
+        if ($('#image')[0].files[0]) {
+            formData.append('image', $('#image')[0].files[0]);
+        }
+
+        const apiUrl = $('#productId').val() ? `/api/products/${$('#productId').val()}` : '/api/products';
+        const apiType = $('#productId').val() ? 'PUT' : 'POST';
+
+        $.ajax({
+            url: apiUrl,
+            type: apiType,
+            enctype: 'multipart/form-data',
+            processData: false,  // Prevent jQuery from automatically transforming the data into a query string
+            contentType: false,
+            data: formData,
+            success: function() {
+                resetForm();
+                loadProducts();
+            }
+        });
+    }
+
+    function editProduct(id) {
+        $.ajax({
+            url: `/api/products/${id}`,
+            type: 'GET',
+            success: function(product) {
+                $('#productId').val(product.id);
+                $('#name').val(product.name);
+                $('#price').val(product.price);
+                $('#description').val(product.description);
+            }
+        });
+    }
+
+    function deleteProduct(id) {
+        if (confirm('Are you sure you want to delete this product?')) {
+            $.ajax({
+                url: `/api/products/${id}`,
+                type: 'DELETE',
+                success: function() {
+                    loadProducts();
+                }
+            });
+        }
+    }
+
+    function resetForm() {
+        $('#productId').val('');
+        $('#name').val('');
+        $('#price').val('');
+        $('#description').val('');
+        $('#image').val('');
+    }
 </script>
 </body>
 </html>
