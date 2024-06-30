@@ -35,7 +35,11 @@
             </div>
             <div class="col-lg-7">
               <div class="banner-img">
+<<<<<<< HEAD
                 <img class="img-fluid" src="img/banner/bg.jpg" alt="">
+=======
+                <img class="img-fluid" src="img/banner/banner-img.png" alt="">
+>>>>>>> 17f6dcb230616cc9fd005d6ffa963e6225d53274
               </div>
             </div>
           </div>
@@ -47,7 +51,11 @@
                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
                   dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.</p>
                 <div class="add-bag d-flex align-items-center">
+<<<<<<< HEAD
                   <a class="add-btn" href=""><span class="lnr lnr-cross"></span></a>
+=======
+                  <a class="add-btn" href="cart"><span class="lnr lnr-cross"></span></a>
+>>>>>>> 17f6dcb230616cc9fd005d6ffa963e6225d53274
                   <span class="add-text text-uppercase">Add to Bag</span>
                 </div>
               </div>
@@ -183,6 +191,7 @@
 <!-- End category Area -->
 
 <!-- start product Area -->
+<<<<<<< HEAD
 <section class="owl-carousel active-product-area section_gap">
   <!-- single product slide -->
   <div class="single-product-slider">
@@ -490,6 +499,46 @@
   </div>
   </div>
 </section>
+=======
+<div class="container">
+  <div class="row">
+    <div th:each="product : ${products}" class="col-lg-3 col-md-6">
+      <div class="single-product">
+        <img class="img-fluid" src="img/product/p1.jpg" alt="">
+        <div class="product-details">
+          <h6 th:text="${product.name}">addidas New Hammer sole
+            for Sports person</h6>
+          <div class="price">
+            <h6 th:text="${product.price}">$150.00</h6>
+            <h6 class="l-through">$210.00</h6>
+          </div>
+          <div class="prd-bottom">
+
+            <a th:href="@{'/cart/add?productId=' + ${product.id} + '&quantity=1'}"
+               class="social-info">
+              <span class="ti-bag" href="cart"></span>
+              <p class="hover-text">add to bag</p>
+            </a>
+            <a href="" class="social-info">
+              <span class="lnr lnr-heart"></span>
+              <p class="hover-text">Wishlist</p>
+            </a>
+            <a href="" class="social-info">
+              <span class="lnr lnr-sync"></span>
+              <p class="hover-text">compare</p>
+            </a>
+            <a href="" class="social-info">
+              <span class="lnr lnr-move"></span>
+              <p class="hover-text">view more</p>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+>>>>>>> 17f6dcb230616cc9fd005d6ffa963e6225d53274
 <!-- end product Area -->
 
 <!-- Start exclusive deal Area -->
@@ -609,7 +658,11 @@
             <div class="single-related-product d-flex">
               <a href="#"><img src="img/r1.jpg" alt=""></a>
               <div class="desc">
+<<<<<<< HEAD
                 <a href="#" class="title">Black lace Heels</a>
+=======
+                <a href="cart" class="title">Black lace Heels</a>
+>>>>>>> 17f6dcb230616cc9fd005d6ffa963e6225d53274
                 <div class="price">
                   <h6>$189.00</h6>
                   <h6 class="l-through">$210.00</h6>
@@ -621,7 +674,11 @@
             <div class="single-related-product d-flex">
               <a href="#"><img src="img/r2.jpg" alt=""></a>
               <div class="desc">
+<<<<<<< HEAD
                 <a href="#" class="title">Black lace Heels</a>
+=======
+                <a href="cart" class="title">Black lace Heels</a>
+>>>>>>> 17f6dcb230616cc9fd005d6ffa963e6225d53274
                 <div class="price">
                   <h6>$189.00</h6>
                   <h6 class="l-through">$210.00</h6>
@@ -633,7 +690,11 @@
             <div class="single-related-product d-flex">
               <a href="#"><img src="img/r3.jpg" alt=""></a>
               <div class="desc">
+<<<<<<< HEAD
                 <a href="#" class="title">Black lace Heels</a>
+=======
+                <a href="cart" class="title">Black lace Heels</a>
+>>>>>>> 17f6dcb230616cc9fd005d6ffa963e6225d53274
                 <div class="price">
                   <h6>$189.00</h6>
                   <h6 class="l-through">$210.00</h6>
@@ -645,7 +706,11 @@
             <div class="single-related-product d-flex">
               <a href="#"><img src="img/r5.jpg" alt=""></a>
               <div class="desc">
+<<<<<<< HEAD
                 <a href="#" class="title">Black lace Heels</a>
+=======
+                <a href="cart" class="title">Black lace Heels</a>
+>>>>>>> 17f6dcb230616cc9fd005d6ffa963e6225d53274
                 <div class="price">
                   <h6>$189.00</h6>
                   <h6 class="l-through">$210.00</h6>
@@ -657,7 +722,11 @@
             <div class="single-related-product d-flex">
               <a href="#"><img src="img/r6.jpg" alt=""></a>
               <div class="desc">
+<<<<<<< HEAD
                 <a href="#" class="title">Black lace Heels</a>
+=======
+                <a href="cart" class="title">Black lace Heels</a>
+>>>>>>> 17f6dcb230616cc9fd005d6ffa963e6225d53274
                 <div class="price">
                   <h6>$189.00</h6>
                   <h6 class="l-through">$210.00</h6>
@@ -669,7 +738,11 @@
             <div class="single-related-product d-flex">
               <a href="#"><img src="img/r7.jpg" alt=""></a>
               <div class="desc">
+<<<<<<< HEAD
                 <a href="#" class="title">Black lace Heels</a>
+=======
+                <a href="cart" class="title">Black lace Heels</a>
+>>>>>>> 17f6dcb230616cc9fd005d6ffa963e6225d53274
                 <div class="price">
                   <h6>$189.00</h6>
                   <h6 class="l-through">$210.00</h6>
@@ -681,7 +754,11 @@
             <div class="single-related-product d-flex">
               <a href="#"><img src="img/r9.jpg" alt=""></a>
               <div class="desc">
+<<<<<<< HEAD
                 <a href="#" class="title">Black lace Heels</a>
+=======
+                <a href="cart" class="title">Black lace Heels</a>
+>>>>>>> 17f6dcb230616cc9fd005d6ffa963e6225d53274
                 <div class="price">
                   <h6>$189.00</h6>
                   <h6 class="l-through">$210.00</h6>
@@ -693,7 +770,11 @@
             <div class="single-related-product d-flex">
               <a href="#"><img src="img/r10.jpg" alt=""></a>
               <div class="desc">
+<<<<<<< HEAD
                 <a href="#" class="title">Black lace Heels</a>
+=======
+                <a href="cart" class="title">Black lace Heels</a>
+>>>>>>> 17f6dcb230616cc9fd005d6ffa963e6225d53274
                 <div class="price">
                   <h6>$189.00</h6>
                   <h6 class="l-through">$210.00</h6>
@@ -705,7 +786,11 @@
             <div class="single-related-product d-flex">
               <a href="#"><img src="img/r11.jpg" alt=""></a>
               <div class="desc">
+<<<<<<< HEAD
                 <a href="#" class="title">Black lace Heels</a>
+=======
+                <a href="cart" class="title">Black lace Heels</a>
+>>>>>>> 17f6dcb230616cc9fd005d6ffa963e6225d53274
                 <div class="price">
                   <h6>$189.00</h6>
                   <h6 class="l-through">$210.00</h6>
