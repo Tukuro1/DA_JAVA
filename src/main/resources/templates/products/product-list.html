@@ -1,67 +1,51 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security5"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout}">
-<<<<<<< HEAD
-
-=======
-<<<<<<< HEAD
-=======
-
->>>>>>> 22f7998a4b1f5bb4743ff610dcba62997874eb6c
->>>>>>> 17f6dcb230616cc9fd005d6ffa963e6225d53274
 <head>
-  <title th:text="${title} ?: 'Products List'">Products List</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <title th:text="${title} ?: 'Product'">Product</title>
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 </head>
 <body>
 <section layout:fragment="content">
   <h1>Products List</h1>
+  <div>
+    <a th:href="@{/products/add}" class="btn btn-primary mb-3">Add New
+      Product</a>
+  </div>
   <table class="table table-bordered table-hover">
     <thead class="table-dark">
     <tr>
       <th>ID</th>
       <th>Name</th>
+      <th>Image</th>
       <th>Price</th>
       <th>Description</th>
       <th>Category Name</th>
-      <th>Image</th>
       <th>Actions</th>
-      <th>Add To Cart</th>
+
+
     </tr>
     </thead>
     <tbody>
     <tr th:each="product : ${products}">
       <td th:text="${product.id}"></td>
       <td th:text="${product.name}"></td>
+      <td> <img th:src="${product.image}" width="100px" height="100px"></td>
       <td th:text="${product.price}"></td>
       <td th:text="${product.description}"></td>
       <td th:text="${product.category.name}"></td>
       <td>
-        <!-- Display product image -->
-        <img th:src="@{'/images/' + ${product.imageName}}" class="img-thumbnail" style="max-width: 100px; max-height: 100px;" alt="Product Image">
-      </td>
-      <td>
-        <!-- Display edit and delete buttons for ADMIN users -->
-        <div sec:authorize="hasAuthority('ADMIN')">
-          <a th:href="@{/products/edit/{id}(id=${product.id})}" class="btn btn-success btn-sm">Sửa</a>
-          <a th:href="@{/products/delete/{id}(id=${product.id})}" class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc không?')">Xóa</a>
-        </div>
-      </td>
-      <td>
-        <!-- Add to cart form -->
-        <form th:action="@{/cart/add}" method="post" sec:authorize="isAuthenticated()">
-          <input type="number" name="quantity" min="1" value="1" class="form-control d-inline-block" style="width: 70px;">
-          <input type="hidden" th:value="${product.id}" name="productId"/>
-          <button type="submit" class="btn btn-warning btn-sm">Thêm Vào Giỏ</button>
-        </form>
+
+        <a th:href="@{/products/edit/{id}(id=${product.id})}" class="btn
+btn-success btn-sm">Edit</a>
+        <a th:href="@{/products/delete/{id}(id=${product.id})}" class="btn
+btn-danger btn-sm" onclick="return confirm('Are you sure?')">Delete</a>
       </td>
     </tr>
     </tbody>
   </table>
 </section>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

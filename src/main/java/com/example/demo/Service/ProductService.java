@@ -9,12 +9,8 @@ import org.springframework.web.multipart.MultipartFile;
 import jakarta.validation.constraints.NotNull;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -22,7 +18,6 @@ import java.util.UUID;
 public class ProductService {
 
     private final ProductRepository productRepository;
-    private final Path imageStoragePath = Paths.get("path/to/image/storage");
 
     // Retrieve all products from the database
     public List<Product> getAllProducts() {
@@ -35,11 +30,7 @@ public class ProductService {
     }
 
     // Add a new product to the database
-    public Product addProduct(Product product, MultipartFile imageFile) throws IOException {
-        if (!imageFile.isEmpty()) {
-            String imageName = saveImage(imageFile);
-            product.setImageName(imageName);
-        }
+    public Product addProduct(Product product) {
         return productRepository.save(product);
     }
 
@@ -53,11 +44,7 @@ public class ProductService {
         existingProduct.setPrice(product.getPrice());
         existingProduct.setDescription(product.getDescription());
         existingProduct.setCategory(product.getCategory());
-
-        if (!imageFile.isEmpty()) {
-            String imageName = saveImage(imageFile);
-            existingProduct.setImageName(imageName);
-        }
+        existingProduct.setImage(imageFile.getOriginalFilename());
 
         return productRepository.save(existingProduct);
     }
@@ -68,12 +55,5 @@ public class ProductService {
             throw new IllegalStateException("Product with ID " + id + " does not exist.");
         }
         productRepository.deleteById(id);
-    }
-
-    private String saveImage(MultipartFile imageFile) throws IOException {
-        String imageName = UUID.randomUUID().toString() + "-" + imageFile.getOriginalFilename();
-        Path imagePath = imageStoragePath.resolve(imageName);
-        Files.copy(imageFile.getInputStream(), imagePath);
-        return imageName;
     }
 }

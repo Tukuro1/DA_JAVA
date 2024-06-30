@@ -4,14 +4,22 @@ import com.example.demo.Model.Product;
 import com.example.demo.Service.CategoryService;
 import com.example.demo.Service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.validation.Valid;
+
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.UUID;
 
 @Controller
 @RequestMapping("/products")
@@ -25,13 +33,7 @@ public class ProductController {
     @GetMapping
     public String showProductList(Model model) {
         model.addAttribute("products", productService.getAllProducts());
-        return "/products/index";
-    }
-
-    @GetMapping("/admin")
-    public String showProductListAdmin(Model model) {
-        model.addAttribute("products", productService.getAllProducts());
-        return "/products/admin";
+        return "/products/product-list";
     }
 
     // For adding a new product
@@ -42,19 +44,32 @@ public class ProductController {
         return "/products/add-product";
     }
 
-    // Process the form for adding a new product
     @PostMapping("/add")
-    public String addProduct(@Valid Product product, BindingResult result, @RequestParam("imageFile") MultipartFile imageFile) {
+    public String addProduct(@Valid Product product, BindingResult result, @RequestParam("images") MultipartFile imageFile) {
         if (result.hasErrors()) {
             return "/products/add-product";
         }
-        try {
-            productService.addProduct(product, imageFile);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return "/products/add-product";
+        if (!imageFile.isEmpty()) {
+            try {
+                String image = saveImageStatic(imageFile);
+                product.setImage("images/" + image);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-        return "redirect:/products/admin";
+        productService.addProduct(product);
+        return "redirect:/products";
+    }
+    private String saveImageStatic(MultipartFile image) throws IOException {
+
+        //c1. tao san thu muc nam tai target/classes/static/images
+        //c2. hoac su dung code kiem tra su ton tai cua thu muc va tao thu muc neu chua ton tai
+
+        File saveFile = new ClassPathResource("static/images").getFile();
+        String fileName = UUID.randomUUID()+ "." + StringUtils.getFilenameExtension(image.getOriginalFilename());
+        Path path = Paths.get(saveFile.getAbsolutePath() + File.separator + fileName);
+        Files.copy(image.getInputStream(), path);
+        return fileName;
     }
 
     // For editing a product

@@ -13,19 +13,13 @@ public class Product {
     private String name;
     private String description;
     private double price;
-
+    private String image;
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
 
-    private String imageName;
+
 
     // Getters and setters for imageName
-    public String getImageName() {
-        return imageName;
-    }
 
-    public void setImageName(String imageName) {
-        this.imageName = imageName;
-    }
 }
