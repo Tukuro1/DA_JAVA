@@ -21,6 +21,11 @@ public class ProductController {
         model.addAttribute("products", productService.getAllProducts());
         return "/products/index";
 }
+    @GetMapping("/admin")
+    public String showProductListAdmin(Model model) {
+        model.addAttribute("products", productService.getAllProducts());
+        return "/products/admin";
+    }
     // For adding a new product
     @GetMapping("/add")
     public String showAddForm(Model model) {
@@ -35,7 +40,7 @@ public class ProductController {
             return "/products/add-product";
         }
         productService.addProduct(product);
-        return "redirect:/products";
+        return "redirect:/products/admin";
     }
     // For editing a product
     @GetMapping("/edit/{id}")
@@ -55,13 +60,13 @@ public class ProductController {
             return "/products/update-product";
         }
         productService.updateProduct(product);
-        return "redirect:/products";
+        return "redirect:/products/admin";
     }
     // Handle request to delete a product
     @GetMapping("/delete/{id}")
     public String deleteProduct(@PathVariable Long id) {
         productService.deleteProductById(id);
-        return "redirect:/products";
+        return "redirect:/products/admin";
     }
     @GetMapping("/management")
     public String show(){
